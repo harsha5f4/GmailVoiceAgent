@@ -1,0 +1,164 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #0c2340;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)),
+              url('robot.jpg') no-repeat center center / cover;
+  background-attachment: fixed;
+}
+
+.container {
+  background: rgba(255, 255, 255, 0.75);
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  max-width: 700px;
+  width: 90%;
+}
+
+.logo {
+  font-family: 'Pacifico', cursive;
+  font-size: 3rem;
+  background: linear-gradient(90deg, #f7b32b, #f77f00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+  0% { background-position: 0%; }
+  100% { background-position: 200%; }
+}
+
+.hero-content h1 {
+  font-size: 1.8rem;
+  margin: 1rem 0 0.5rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+.hero-content p {
+  margin: 0 0 2rem;
+  font-size: 1rem;
+  color: #333;
+  font-family: 'Poppins', sans-serif;
+}
+
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 50px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.mic-btn {
+  background: none;
+  border: none;
+  padding: 0 1rem;
+  cursor: pointer;
+  color: #0c2340;
+}
+
+.mic-btn i {
+  font-size: 1.2rem;
+}
+
+.search-wrapper input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+.enter-btn {
+  background: #f7b32b;
+  color: #0c2340;
+  border: none;
+  padding: 0.9rem 1.5rem;
+  font-weight: bold;
+  border-radius: 0 50px 50px 0;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.enter-btn:hover {
+  background: #e4a100;
+}
+
+.results {
+  display: none;
+  background: #f8f8f8;
+  border-radius: 15px;
+  margin-top: 2rem;
+  padding: 1rem 1.5rem;
+  text-align: left;
+}
+
+.results h3 {
+  margin-top: 0;
+}
+
+.results ul {
+  list-style: none;
+  padding: 0;
+}
+
+.results li {
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+@media(max-width: 768px) {
+  .container {
+    padding: 2rem;
+  }
+
+  .hero-content h1 {
+    font-size: 1.6rem;
+  }
+}
+
+.mic-btn.listening {
+  color: #f77f00; 
+  transform: scale(1.1);
+  animation: pulse 1.5s infinite; 
+}
+
+.mic-btn.speaking {
+  color: #007bff; 
+  animation: none; 
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(247, 127, 0, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(247, 127, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(247, 127, 0, 0); }
+}
+
+
+.results ul {
+  list-style: none; 
+  padding: 0;      
+}
+
+.results li {
+  margin-bottom: 0.5rem; 
+  line-height: 1.4;      
+  color: #333; 
+  font-size: 0.95rem; 
+}
+body {
+  
+  background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)),
+              url('/static/robot.jpg') no-repeat center center / cover; 
+  background-attachment: fixed;
+}

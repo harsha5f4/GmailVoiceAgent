@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gmail Voice Agent</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="logo">Gmail Voice Agent</div>
+    <main class="hero-content">
+      <h1>Hi there! Ready to check your emails?</h1>
+      <p>Speak or type your command — I will handle the rest!</p>
+
+      <div class="search-wrapper">
+        <button class="mic-btn" id="micBtn">
+          <i class="fa-solid fa-microphone"></i>
+        </button>
+        <input id="queryInput" type="text" placeholder="Search...">
+        <button class="enter-btn" id="enterBtn">Enter</button>
+      </div>
+    </main>
+
+    <section class="results" id="resultsPanel">
+      <h3>Results</h3>
+      <ul id="resultsList"> 
+        <li></li> </ul>
+    </section>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
