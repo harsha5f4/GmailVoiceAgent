@@ -2,12 +2,12 @@ from app.nlp_processor import process_command, nlp
 from app.gmail import GmailOperations
 import re
 
+
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit
 from flask_cors import CORS
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
-app.config['SECRET_KEY'] = 'YOUR_SUPER_SECRET_KEY_HERE'
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 @app.errorhandler(500)
@@ -44,7 +44,7 @@ def test_disconnect():
     print('Client disconnected from WebSocket.', request.sid)
 
     if request.sid in active_conversations:
-        del active_conversations[request.sid]
+        del active_conversations[request.sid] 
 
 @socketio.on('process_command_event')
 def handle_command(data):
@@ -112,7 +112,7 @@ def handle_command(data):
                 else:
                     response_text = "I couldn't get the body. What should the body of the email say?"
                 emit('agent_response', {'text': response_text, 'type': 'info'}, room=sid) 
-            return
+            return 
         
     nlp_result = process_command(command)
 
@@ -126,7 +126,7 @@ def handle_command(data):
     
     if match_num:
         try:
-            specified_num = int(match_num.group(2))
+            specified_num = int(match_num.group(1))
             
             if specified_num == 0:
                 num_emails_to_fetch_explicitly = 5 
@@ -166,6 +166,36 @@ def handle_command(data):
             response_text = f"Failed to retrieve emails: {str(e)}"
             emit('agent_response', {'text': response_text, 'type': 'error'}, room=sid)
 
+    
+    elif nlp_result["type"] == "UNDERSTAND":
+        category = nlp_result["parameters"]["category"]
+        try:
+            
+            if num_emails_to_fetch_explicitly is not None:
+                emails = gmail_ops.list_emails_by_category(category, max_results=num_emails_to_fetch_explicitly)
+            else:
+                emails = gmail_ops.list_emails_by_category(category)
+
+            if emails:
+                intro_message = f"Okay, here are the top {len(emails)} {category} emails I found:" if num_emails_to_fetch_explicitly else f"Okay, here are some {category} emails I found ({len(emails)} in total):"
+                emit('agent_response', {'text': intro_message, 'type': 'speaking_intro'}, room=sid)
+
+                for idx, email in enumerate(emails, 1):
+                    email_snippet = email.get('snippet', 'No snippet available.')
+                    email_subject = email.get('subject', 'No subject.')
+                    email_from = email.get('from', 'Unknown Sender')
+
+                    email_output = f"Email {idx} from {email_from}: {email_subject} — {email_snippet}"
+                    emails_data.append(email_output)
+                emit('email_snippets', {'snippets': emails_data}, room=sid)
+            else:
+                response_text = f"No {category} emails found matching your query."
+                emit('agent_response', {'text': response_text, 'type': 'info'}, room=sid)
+        except Exception as e:
+            response_text = f"Failed to retrieve {category} emails: {str(e)}"
+            emit('agent_response', {'text': response_text, 'type': 'error'}, room=sid)
+
+
     elif nlp_result["type"] == "SEND_EMAIL":
         active_conversations[sid] = {
             'intent': 'SEND_EMAIL',
@@ -203,4 +233,5 @@ def handle_command(data):
 
 if __name__ == "__main__":
     print("Starting Flask-SocketIO server...")
+    
     socketio.run(app, host='0.0.0.0', port=5000, debug=False)
