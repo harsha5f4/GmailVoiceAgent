@@ -47,7 +47,7 @@ Gmail Voice Agentt is a browser-based application that enables users to read, se
 - Use mic or input box to issue commands like:
 
     "Search emails from dice"
-    "Send email to Harsha saying Hello"
+    "Send email to Harsha"
     "Read top 10 mails"
     "Read linkedin mails"
 
